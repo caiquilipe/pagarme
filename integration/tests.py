@@ -19,5 +19,4 @@ class CustomersTestCase(TransactionTestCase):
     def test_insert_customers(self):
         payload = {"name": "test", "email": "test@test.com"}
         response = self.client.post(reverse("CustomersView"), payload)
-        print(response.data)
         self.assertEquals(response.status_code, status.HTTP_201_CREATED)
