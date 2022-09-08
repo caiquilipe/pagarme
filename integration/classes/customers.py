@@ -1,5 +1,5 @@
 from integration.serializers.customers import CustomersSerializer
-
+from requests.auth import HTTPBasicAuth
 from django.conf import settings
 
 import requests
@@ -9,7 +9,6 @@ import json
 class Customer:
     __header = {
         "Accept": "application/json",
-        "Authorization": f"Basic {settings.PAGARME_SECRET_KEY}",
     }
     __url = "https://api.pagar.me/core/v5/customers"
 
@@ -27,6 +26,11 @@ class Customer:
     def insert_customers(cls, payload):
         cls.__header["Content-Type"] = "application/json"
         content = json.loads(
-            requests.post(cls.__url, headers=cls.__header, json=payload).text
+            requests.post(
+                cls.__url,
+                auth=HTTPBasicAuth(settings.PAGARME_SECRET_KEY, ""),
+                headers=cls.__header,
+                json=payload,
+            ).text
         )
         return CustomersSerializer(content).data
