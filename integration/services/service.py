@@ -18,8 +18,8 @@ class PaymentGatewayClass:
         return Customer.insert_customer(payload=payload)
 
     @abstractmethod
-    def get_cards():
-        return Card.get_cards()
+    def get_cards(customer_id):
+        return Card.get_cards(customer_id=customer_id)
 
     @abstractmethod
     def get_card(customer_id, pk):
