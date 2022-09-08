@@ -7,7 +7,7 @@ from django.contrib.auth.hashers import make_password
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from integration.services.customers import PaymentGatewayClass
+from integration.services.service import PaymentGatewayClass
 
 
 class CustomerRegistryView(FormView):
@@ -29,7 +29,7 @@ class CustomerRegistryView(FormView):
                 phone_number=data.get("phone_number"),
                 password=password,
             )
-            customer_id = PaymentGatewayClass.insert_customers(
+            customer_id = PaymentGatewayClass.insert_customer(
                 {
                     "name": f"{data.get('first_name')} {data.get('last_name')}",
                     "email": data.get("email"),

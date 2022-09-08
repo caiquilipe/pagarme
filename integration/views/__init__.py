@@ -1,1 +1,1 @@
-from .customers import CustomersView
+from .webhook import WebhookView

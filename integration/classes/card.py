@@ -1,4 +1,4 @@
-from integration.serializers.customers import CustomersSerializer
+from integration.serializers.cards import CardsSerializer
 
 from requests.auth import HTTPBasicAuth
 
@@ -8,25 +8,29 @@ import requests
 import json
 
 
-class Customer:
+class Card:
     __header = {
         "Accept": "application/json",
     }
-    __url = "https://api.pagar.me/core/v5/customers"
+    __url = "https://api.pagar.me/core/v5/customers/ /cards"
 
     @classmethod
-    def get_customers(cls):
+    def get_cards(cls, customer_id):
+        cls.__url.replace(" ", customer_id)
+        print(cls.__url)
         content = json.loads(requests.get(cls.__url, headers=cls.__header).text)
-        return CustomersSerializer(content.get("data"), many=True).data
+        return CardsSerializer(content.get("data"), many=True).data
 
     @classmethod
-    def get_customer(cls, pk):
+    def get_card(cls, customer_id, pk):
+        cls.__url.replace(" ", customer_id)
         cls.__url += f"/{pk}"
         content = json.loads(requests.get(cls.__url, headers=cls.__header).text)
-        return CustomersSerializer(content).data
+        return CardsSerializer(content).data
 
     @classmethod
-    def insert_customer(cls, payload):
+    def insert_card(cls, customer_id, payload):
+        cls.__url.replace(" ", customer_id)
         cls.__header["Content-Type"] = "application/json"
         content = json.loads(
             requests.post(
@@ -36,4 +40,4 @@ class Customer:
                 json=payload,
             ).text
         )
-        return CustomersSerializer(content).data
+        return CardsSerializer(content).data
