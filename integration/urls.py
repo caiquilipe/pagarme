@@ -1,5 +1,3 @@
-from integration.forms.CustomerForms import CustomerLoginForm
-from integration.views.customers import CustomersView
 from integration.views.front_views.customer_registry import (
     CustomerHomeView,
     CustomerLoginView,
@@ -15,6 +13,5 @@ urlpatterns = [
     path("customer/home", CustomerHomeView.as_view()),
     path("customer/request", CustomerHomeView.as_view()),
     path("customer/registry", CustomerRegistryView.as_view()),
-    path("customers", CustomersView.as_view(), name="CustomersView"),
     path("", WebhookView.as_view(), name="WebhookView"),
 ]

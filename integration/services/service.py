@@ -1,7 +1,9 @@
 from integration.classes.customers import Customer
-from integration.classes.card import Card
+from integration.classes.cards import Card
 
 from abc import abstractmethod
+
+from integration.classes.orders import Order
 
 
 class PaymentGatewayClass:
@@ -28,3 +30,15 @@ class PaymentGatewayClass:
     @abstractmethod
     def insert_card(customer_id, payload):
         return Card.insert_card(customer_id=customer_id, payload=payload)
+
+    @abstractmethod
+    def get_orders():
+        return Order.get_orders()
+
+    @abstractmethod
+    def get_order(pk):
+        return Order.get_order(pk=pk)
+
+    @abstractmethod
+    def insert_order(payload):
+        return Order.insert_order(payload=payload)

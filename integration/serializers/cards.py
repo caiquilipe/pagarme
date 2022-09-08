@@ -15,3 +15,7 @@ class CardsSerializer(serializers.Serializer):
     exp_month = serializers.IntegerField(required=True)
     exp_year = serializers.IntegerField(required=True)
     last_four_digits = serializers.CharField(required=True)
+
+
+class CardCvvSerializer(serializers.Serializer):
+    cvv = serializers.CharField(required=True)
