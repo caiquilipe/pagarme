@@ -1,7 +1,6 @@
-from integration.serializers.charges import ChargesSerializer
-from integration.serializers.customers import CustomersSerializer
-from integration.serializers.payments import PaymentsSerializer
-from integration.serializers.items import ItemsSerializer
+from .charges import ChargesSerializer
+from .payments import PaymentsSerializer
+from .items import ItemsSerializer
 
 from rest_framework import serializers
 

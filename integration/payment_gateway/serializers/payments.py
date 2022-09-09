@@ -1,4 +1,4 @@
-from integration.serializers.credit_cards import CreditCardsSerializer
+from .credit_cards import CreditCardsSerializer
 
 from rest_framework import serializers
 

@@ -1,4 +1,4 @@
-from integration.serializers.cards import CardCvvSerializer
+from .cards import CardCvvSerializer
 
 from rest_framework import serializers
 

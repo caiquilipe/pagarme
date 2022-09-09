@@ -1,9 +1,8 @@
-from integration.classes.customers import Customer
-from integration.classes.cards import Card
+from .classes.customers import Customer
+from .classes.cards import Card
+from .classes.orders import Order
 
 from abc import abstractmethod
-
-from integration.classes.orders import Order
 
 
 class PaymentGatewayClass:
