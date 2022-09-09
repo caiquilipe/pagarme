@@ -30,7 +30,7 @@ class Card:
 
     @classmethod
     def insert_card(cls, customer_id, payload):
-        cls.__ur = cls.__url.replace(" ", customer_id)
+        cls.__url = cls.__url.replace(" ", customer_id)
         cls.__header["Content-Type"] = "application/json"
         content = json.loads(
             requests.post(
