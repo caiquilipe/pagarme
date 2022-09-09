@@ -1,3 +1,4 @@
+from ..utils.handle_errors import handle_error_pagarme
 from ..serializers.cards import CardsSerializer
 
 from requests.auth import HTTPBasicAuth
@@ -16,21 +17,20 @@ class Card:
 
     @classmethod
     def get_cards(cls, customer_id):
-        cls.__url = cls.__url.replace(" ", customer_id)
-        print(cls.__url)
+        cls.__url = cls.__url.replace(" ", str(customer_id))
         content = json.loads(requests.get(cls.__url, headers=cls.__header).text)
         return CardsSerializer(content.get("data"), many=True).data
 
     @classmethod
     def get_card(cls, customer_id, pk):
-        cls.__url = cls.__url.replace(" ", customer_id)
-        cls.__url += f"/{pk}"
+        cls.__url = cls.__url.replace(" ", str(customer_id))
+        cls.__url += f"/{str(pk)}"
         content = json.loads(requests.get(cls.__url, headers=cls.__header).text)
         return CardsSerializer(content).data
 
     @classmethod
     def insert_card(cls, customer_id, payload):
-        cls.__url = cls.__url.replace(" ", customer_id)
+        cls.__url = cls.__url.replace(" ", str(customer_id))
         cls.__header["Content-Type"] = "application/json"
         content = json.loads(
             requests.post(
@@ -40,4 +40,7 @@ class Card:
                 json=payload,
             ).text
         )
-        return CardsSerializer(content).data
+        serializer = CardsSerializer(data=content)
+        if not serializer.is_valid():
+            return handle_error_pagarme(content)
+        return serializer.data

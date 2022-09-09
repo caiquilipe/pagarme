@@ -1,3 +1,4 @@
+from ..utils.handle_errors import handle_error_pagarme
 from ..serializers.orders import OrdersSerializer
 
 from requests.auth import HTTPBasicAuth
@@ -21,7 +22,7 @@ class Order:
 
     @classmethod
     def get_order(cls, pk):
-        cls.__url += f"/{pk}"
+        cls.__url += f"/{str(pk)}"
         content = json.loads(requests.get(cls.__url, headers=cls.__header).text)
         return OrdersSerializer(content).data
 
@@ -37,4 +38,7 @@ class Order:
                 json=payload,
             ).text
         )
-        return OrdersSerializer(content).data
+        serializer = OrdersSerializer(content)
+        if not serializer.is_valid():
+            return handle_error_pagarme(content)
+        return serializer.data

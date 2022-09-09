@@ -1,7 +1,11 @@
-from integration.payment_gateway.serializers.cards import CardsInsertSerializer
+from .serializers.customers import CustomerInsertSerializer
+from .utils.handle_errors import handle_error_serializer
+from .serializers.orders import OrdersInserirSerializer
+from .serializers.cards import CardsInsertSerializer
 from .classes.customers import Customer
-from .classes.cards import Card
 from .classes.orders import Order
+from .classes.cards import Card
+
 from rest_framework.exceptions import ValidationError
 
 
@@ -11,20 +15,21 @@ from abc import abstractmethod
 class PaymentGatewayClass:
     @abstractmethod
     def get_customers():
-        try:
-            data = Customer.get_customers()
-            return data
-        except:
-            return "erro"
+        return Customer.get_customers()
 
     @abstractmethod
     def get_customer(pk):
-
         return Customer.get_customer(pk=pk)
 
     @abstractmethod
     def insert_customer(payload):
-        return Customer.insert_customer(payload=payload)
+        try:
+            serializer = CustomerInsertSerializer(data=payload)
+            if not serializer.is_valid():
+                raise ValidationError(detail=handle_error_serializer(serializer.errors))
+            return Customer.insert_customer(payload=serializer.data)
+        except ValidationError as ve:
+            raise ve
 
     @abstractmethod
     def get_cards(customer_id):
@@ -39,8 +44,8 @@ class PaymentGatewayClass:
         try:
             serializer = CardsInsertSerializer(data=payload)
             if not serializer.is_valid():
-                raise ValidationError(detail=serializer.errors)
-            return Card.insert_card(customer_id=customer_id, payload=payload)
+                raise ValidationError(detail=handle_error_serializer(serializer.errors))
+            return Card.insert_card(customer_id=customer_id, payload=serializer.data)
         except ValidationError as ve:
             raise ve
 
@@ -54,4 +59,10 @@ class PaymentGatewayClass:
 
     @abstractmethod
     def insert_order(payload):
-        return Order.insert_order(payload=payload)
+        try:
+            serializer = OrdersInserirSerializer(data=payload)
+            if not serializer.is_valid():
+                raise ValidationError(detail=handle_error_serializer(serializer.errors))
+            return Order.insert_order(payload=serializer.data)
+        except ValidationError as ve:
+            raise ve
