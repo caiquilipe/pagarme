@@ -7,6 +7,6 @@ def handle_error_pagarme(content: dict) -> dict:
 def handle_error_serializer(errors: dict) -> dict:
     return {
         "detail": [
-            f"{keys}, {str(v)}" for keys, values in errors.items() for v in values
+            f"{keys}:{str(v)}" for keys, values in errors.items() for v in values
         ]
     }
