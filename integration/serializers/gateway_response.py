@@ -1,6 +1,6 @@
-from rest_framework import serializers
-
 from .messages import MessagesSerializer
+
+from rest_framework import serializers
 
 
 class GatewayResponseSerializers(serializers.Serializer):

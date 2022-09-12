@@ -1,7 +1,7 @@
-from rest_framework import serializers
-
-from .customers import CustomersSerializer
 from .transactions import TransactionsSerializer
+from .customers import CustomersSerializer
+
+from rest_framework import serializers
 
 
 class ChargesSerializer(serializers.Serializer):

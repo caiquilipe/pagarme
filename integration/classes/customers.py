@@ -1,5 +1,5 @@
+from ..serializers.customers import CustomersSerializer
 from ..utils.handle_errors import handle_error_pagarme
-from ..serializers.cards import CardsSerializer
 
 from requests.auth import HTTPBasicAuth
 
@@ -9,34 +9,43 @@ import requests
 import json
 
 
-class Card:
+class Customer:
     __header = {
         "Accept": "application/json",
     }
-    __url = "https://api.pagar.me/core/v5/customers/ /cards"
+    __url = "https://api.pagar.me/core/v5/customers"
 
     @classmethod
-    def get_cards(cls, customer_id):
-        cls.__url = cls.__url.replace(" ", str(customer_id))
-        content = json.loads(requests.get(cls.__url, headers=cls.__header).text)
-        serializer = CardsSerializer(data=content.get("data"), many=True)
+    def get_customers(cls):
+        content = json.loads(
+            requests.get(
+                cls.__url,
+                auth=HTTPBasicAuth(settings.PAGARME_SECRET_KEY, ""),
+                headers=cls.__header,
+            ).text
+        )
+        serializer = CustomersSerializer(data=content.get("data"), many=True)
         if not serializer.is_valid():
             return handle_error_pagarme(content)
         return serializer.data
 
     @classmethod
-    def get_card(cls, customer_id, pk):
-        cls.__url = cls.__url.replace(" ", str(customer_id))
+    def get_customer(cls, pk):
         cls.__url += f"/{str(pk)}"
-        content = json.loads(requests.get(cls.__url, headers=cls.__header).text)
-        serializer = CardsSerializer(data=content)
+        content = json.loads(
+            requests.get(
+                cls.__url,
+                auth=HTTPBasicAuth(settings.PAGARME_SECRET_KEY, ""),
+                headers=cls.__header,
+            ).text
+        )
+        serializer = CustomersSerializer(data=content)
         if not serializer.is_valid():
             return handle_error_pagarme(content)
         return serializer.data
 
     @classmethod
-    def insert_card(cls, customer_id, payload):
-        cls.__url = cls.__url.replace(" ", str(customer_id))
+    def insert_customer(cls, payload):
         cls.__header["Content-Type"] = "application/json"
         content = json.loads(
             requests.post(
@@ -46,7 +55,7 @@ class Card:
                 json=payload,
             ).text
         )
-        serializer = CardsSerializer(data=content)
+        serializer = CustomersSerializer(data=content)
         if not serializer.is_valid():
             return handle_error_pagarme(content)
         return serializer.data

@@ -8,7 +8,6 @@ from .classes.cards import Card
 
 from rest_framework.exceptions import ValidationError
 
-
 from abc import abstractmethod
 
 

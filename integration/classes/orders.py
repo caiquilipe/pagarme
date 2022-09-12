@@ -17,7 +17,13 @@ class Order:
 
     @classmethod
     def get_orders(cls):
-        content = json.loads(requests.get(cls.__url, headers=cls.__header).text)
+        content = json.loads(
+            requests.get(
+                cls.__url,
+                auth=HTTPBasicAuth(settings.PAGARME_SECRET_KEY, ""),
+                headers=cls.__header,
+            ).text
+        )
         serializer = OrdersSerializer(data=content.get("data"), many=True)
         if not serializer.is_valid():
             return handle_error_pagarme(content)
@@ -26,7 +32,13 @@ class Order:
     @classmethod
     def get_order(cls, pk):
         cls.__url += f"/{str(pk)}"
-        content = json.loads(requests.get(cls.__url, headers=cls.__header).text)
+        content = json.loads(
+            requests.get(
+                cls.__url,
+                auth=HTTPBasicAuth(settings.PAGARME_SECRET_KEY, ""),
+                headers=cls.__header,
+            ).text
+        )
         serializer = OrdersSerializer(data=content)
         if not serializer.is_valid():
             return handle_error_pagarme(content)

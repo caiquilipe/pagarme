@@ -1,7 +1,7 @@
-from rest_framework import serializers
-
-from .cards import CardsSerializer
 from .gateway_response import GatewayResponseSerializers
+from .cards import CardsSerializer
+
+from rest_framework import serializers
 
 
 class TransactionsSerializer(serializers.Serializer):
