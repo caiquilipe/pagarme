@@ -1,16 +1,17 @@
-from rest_framework.viewsets import ViewSet
-from rest_framework.permissions import AllowAny
-from rest_framework.response import Response
-from rest_framework.exceptions import ValidationError
-from rest_framework import status
-from integration.models import CustomerUser
-
-from integration.payment_gateway.payment_gateway import PaymentGatewayClass
-from integration.payment_gateway.utils.handle_errors import handle_error_serializer
-from integration.serializers import (
+from ..utils.handle_errors import handle_error_serializer
+from ..payment_gateway import PaymentGatewayClass
+from ..serializers.customers import (
     CustomerInsertModelSerializer,
     UserGetOrCreateSerializer,
 )
+from ..models import CustomerUser
+
+from rest_framework.exceptions import ValidationError
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from rest_framework.viewsets import ViewSet
+from rest_framework import status
+
 
 from django.db import transaction
 
