@@ -19,14 +19,20 @@ class Card:
     def get_cards(cls, customer_id):
         cls.__url = cls.__url.replace(" ", str(customer_id))
         content = json.loads(requests.get(cls.__url, headers=cls.__header).text)
-        return CardsSerializer(content.get("data"), many=True).data
+        serializer = CardsSerializer(data=content.get("data"), many=True)
+        if not serializer.is_valid():
+            return handle_error_pagarme(content)
+        return serializer.data
 
     @classmethod
     def get_card(cls, customer_id, pk):
         cls.__url = cls.__url.replace(" ", str(customer_id))
         cls.__url += f"/{str(pk)}"
         content = json.loads(requests.get(cls.__url, headers=cls.__header).text)
-        return CardsSerializer(content).data
+        serializer = CardsSerializer(data=content)
+        if not serializer.is_valid():
+            return handle_error_pagarme(content)
+        return serializer.data
 
     @classmethod
     def insert_card(cls, customer_id, payload):

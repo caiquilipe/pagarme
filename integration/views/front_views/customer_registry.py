@@ -1,4 +1,3 @@
-import json
 from django.views.generic import FormView, TemplateView
 from django.contrib.auth import authenticate
 from integration.forms.CustomerForms import CustomerCreateForm, CustomerLoginForm
@@ -7,7 +6,7 @@ from django.contrib.auth.hashers import make_password
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from integration.services.service import PaymentGatewayClass
+from integration.payment_gateway.payment_gateway import PaymentGatewayClass
 
 
 class CustomerRegistryView(FormView):

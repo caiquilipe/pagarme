@@ -18,13 +18,19 @@ class Customer:
     @classmethod
     def get_customers(cls):
         content = json.loads(requests.get(cls.__url, headers=cls.__header).text)
-        return CustomersSerializer(content.get("data"), many=True).data
+        serializer = CustomersSerializer(data=content.get("data"), many=True)
+        if not serializer.is_valid():
+            return handle_error_pagarme(content)
+        return serializer.data
 
     @classmethod
     def get_customer(cls, pk):
         cls.__url += f"/{str(pk)}"
         content = json.loads(requests.get(cls.__url, headers=cls.__header).text)
-        return CustomersSerializer(content).data
+        serializer = CustomersSerializer(data=content)
+        if not serializer.is_valid():
+            return handle_error_pagarme(content)
+        return serializer.data
 
     @classmethod
     def insert_customer(cls, payload):
