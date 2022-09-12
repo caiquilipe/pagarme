@@ -1,6 +1,6 @@
-from .cards import CardCvvSerializer
-
 from rest_framework import serializers
+
+from .cards import CardCvvSerializer
 
 
 class CreditCardsSerializer(serializers.Serializer):
