@@ -9,7 +9,7 @@ class CustomerUser(User):
     customer_id = models.CharField(max_length=255, blank=True)
     phone = models.CharField(max_length=255)
     birth_date = models.DateField(null=True)
-
+    
     def get_full_name(self):
         return f"{self.first_name} {self.last_name}"
 

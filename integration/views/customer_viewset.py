@@ -37,3 +37,5 @@ class CustomerViewSet(ViewSet):
                 data=UserGetOrCreateSerializer(user).data,
                 status=status.HTTP_201_CREATED,
             )
+
+

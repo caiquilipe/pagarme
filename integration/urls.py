@@ -1,4 +1,4 @@
-from integration.views.api_views import CustomerViewSet
+from integration.views.customer_viewset import CustomerViewSet
 from integration.views.webhook import WebhookView
 
 from django.urls import path
