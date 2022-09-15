@@ -74,7 +74,11 @@ class UserGetOrCreateSerializer(serializers.ModelSerializer):
 
 class CustomerInsertModelSerializer(serializers.ModelSerializer):
     name = serializers.CharField(source="get_full_name")
+    document = serializers.CharField(source="cpf")
+    document_type = serializers.CharField(source="get_user_document_type")
+    type = serializers.CharField(source="get_user_type")
+    phones = serializers.DictField(source="get_phones_object")
 
     class Meta:
         model = CustomerUser
-        fields = ["name", "email"]
+        fields = ["name", "email", "document", "document_type", "type", "phones"]

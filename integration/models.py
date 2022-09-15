@@ -1,7 +1,6 @@
+from re import M
 from django.db import models
 from django.contrib.auth.models import User
-
-# Create your models here.
 
 
 class CustomerUser(User):
@@ -9,9 +8,29 @@ class CustomerUser(User):
     customer_id = models.CharField(max_length=255, blank=True)
     phone = models.CharField(max_length=255)
     birth_date = models.DateField(null=True)
-    
+
     def get_full_name(self):
         return f"{self.first_name} {self.last_name}"
+
+    @staticmethod
+    def get_user_type():
+        return "individual"
+
+    @staticmethod
+    def get_user_document_type():
+        return "CPF"
+
+    def get_phones_object(self):
+        phone = "".join(e for e in self.phone if e.isdigit())
+
+        obj = {
+            "mobile_phone": {
+                "number": phone[4:],
+                "country_code": phone[0:2],
+                "area_code": phone[2:4],
+            }
+        }
+        return obj
 
     def masked_cpf(self) -> str:
         """

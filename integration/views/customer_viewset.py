@@ -1,5 +1,5 @@
 from ..utils.handle_errors import handle_error_serializer
-from ..payment_gateway import PaymentGatewayClass
+from pagarme_integration import PaymentGatewayClass
 from ..serializers.customers import (
     CustomerInsertModelSerializer,
     UserGetOrCreateSerializer,
@@ -22,7 +22,9 @@ class CustomerViewSet(ViewSet):
     @staticmethod
     def send_user_and_save_customer_id(user: CustomerUser):
         payload = CustomerInsertModelSerializer(user).data
-        customer_id = PaymentGatewayClass.insert_customer(payload).get("id")
+        print(payload)
+        payment_class = PaymentGatewayClass("sk_test_gj6KDaeiQVIPwN0X")
+        customer_id = payment_class.insert_customer(payload).get("id")
         user.customer_id = customer_id
         user.save()
 
@@ -37,5 +39,3 @@ class CustomerViewSet(ViewSet):
                 data=UserGetOrCreateSerializer(user).data,
                 status=status.HTTP_201_CREATED,
             )
-
-
